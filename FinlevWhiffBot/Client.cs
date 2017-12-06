@@ -23,7 +23,7 @@ namespace FinlevWhiffBot
         public static void Init()
         {
             interval = 100; //ms
-            string destination = "oath.txt";
+            string destination = "C:/Users/Noah-PC/source/repos/oath.txt"; //we do not want laypeople to see the oath token monkaS
             oathKey = File.ReadAllText($"{destination}").Trim();
             client = new TcpClient();
             runThread = new Thread(Tick);

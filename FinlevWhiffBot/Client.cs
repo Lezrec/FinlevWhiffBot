@@ -21,6 +21,7 @@ namespace FinlevWhiffBot
         private static int ticks;
         private static string lastMsg;
         private static Tuple<string,string> lastUserMsg;
+        
 
         public static void Init()
         {
@@ -60,14 +61,15 @@ namespace FinlevWhiffBot
                 if (msg.Contains("!") && msg.Contains("#") && msg.Contains(".tmi.twitch.tv") && msg.Substring(1, "finlevwhiffbot".Length) != "finlevwhiffbot")
                 {
                     lastUserMsg = GetUserAndMessage(msg);
-                    Console.WriteLine(GetUserName(msg) + " said :" + GetMessage(msg)); 
+                    Console.WriteLine(GetUserName(msg) + " said :" + GetMessage(msg));
+                    SearchForCommandsFromLast();
                 }
             }
         }
 
         internal static void EndThread()
         {
-            runThread.Abort();
+            Environment.Exit(0);
         }
 
 
@@ -136,5 +138,36 @@ namespace FinlevWhiffBot
         {
             return lastUserMsg;
         }
+
+        private static void SearchForCommandsFromLast()
+        {
+            var pairData = GetUserAndMessagFromLast();
+            string msg = pairData.Item2;
+
+            //secret stuff
+            //
+            //he he
+            SecretMemeCheck(msg);
+
+            WhiffCommand cmd = new WhiffCommand(msg, () => { Console.WriteLine("someone whiffed again.."); });           
+        }
+
+        private static void SecretMemeCheck(string msg)
+        {
+            switch(msg)
+            {
+                case "finlev you are complete and utter trash i hope you get demoted to plat":
+                    Say(":rage: TOXICITY IN MY CHAT :rage:");
+                    break;
+                case "i remember when this was a GC stream FeelsBadMan":
+                    Say("FeelsBadMan me too FeelsBadMan");
+                    break;
+                case "PogChamp HE DIDNT WHIFF PogChamp":
+                    Say("PogChamp MOM GET THE CAMERA PogChamp");
+                    break;
+
+            }
+        }
+
     }
 }

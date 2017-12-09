@@ -31,7 +31,7 @@ namespace FinlevWhiffBot
 
         public virtual void OnTrigger()
         {
-
+            Executable();
         }
     }
 }

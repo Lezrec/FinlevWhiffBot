@@ -12,8 +12,8 @@ namespace FinlevWhiffBot
             string msg = null;
             while(msg != ">exit")
             {
+                if (msg != null) Client.Say(msg);
                 msg = Console.ReadLine();
-                Client.Say(msg);
             }
             Client.EndThread();
         }

@@ -40,7 +40,5 @@ namespace FinlevWhiffBot
         {
             Client.Say("Whiffed!");
         }
-
-
     }
 }

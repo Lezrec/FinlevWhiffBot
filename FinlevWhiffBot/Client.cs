@@ -30,8 +30,6 @@ namespace FinlevWhiffBot
             client = new TcpClient();
             runThread = new Thread(Tick);
             ticks = 0;
-            
-
         }
 
         private static void Tick()
@@ -40,7 +38,7 @@ namespace FinlevWhiffBot
             {
                 JoinChannel();
             }
-            
+
             DateTime prev = DateTime.Now;
 
             while((DateTime.Now.Millisecond + DateTime.Now.Second*1000 + DateTime.Now.Minute * 60000 + DateTime.Now.Hour* 3600000) - (prev.Millisecond + prev.Second*1000 + prev.Minute * 60000 + prev.Hour * 3600000) < interval)
@@ -62,8 +60,7 @@ namespace FinlevWhiffBot
                 if (msg.Contains("!") && msg.Contains("#") && msg.Contains(".tmi.twitch.tv") && msg.Substring(1, "finlevwhiffbot".Length) != "finlevwhiffbot")
                 {
                     lastUserMsg = GetUserAndMessage(msg);
-                    Console.WriteLine(GetUserName(msg) + " said :" + GetMessage(msg));
-                    
+                    Console.WriteLine(GetUserName(msg) + " said :" + GetMessage(msg)); 
                 }
             }
         }
@@ -85,8 +82,6 @@ namespace FinlevWhiffBot
 
                 WriteToIRC($"PASS {oathKey}{LINE}" +
                     $"NICK {botName}{LINE}");
-                
-                
             }
             catch(Exception e)
             {

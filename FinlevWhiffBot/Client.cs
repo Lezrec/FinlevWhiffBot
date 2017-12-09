@@ -14,12 +14,14 @@ namespace FinlevWhiffBot
         private static StreamWriter writer;
         private static string oathKey;
         private static readonly string LINE = Environment.NewLine;
-        private const string channel = "finlev";
+        private const string channel = "lezrecop";
         private const string botName = "finlevwhiffbot";
         private static Thread runThread;
         private static int interval;
         private static int ticks;
-      
+        private static string lastMsg;
+        private static Tuple<string,string> lastUserMsg;
+
         public static void Init()
         {
             interval = 100; //ms
@@ -55,7 +57,14 @@ namespace FinlevWhiffBot
             if (client.Available > 0 || reader.Peek() >= 0)
             {
                 string msg = reader.ReadLine();
+                lastMsg = msg;
                 Console.WriteLine(msg);
+                if (msg.Contains("!") && msg.Contains("#") && msg.Contains(".tmi.twitch.tv") && msg.Substring(1, "finlevwhiffbot".Length) != "finlevwhiffbot")
+                {
+                    lastUserMsg = GetUserAndMessage(msg);
+                    Console.WriteLine(GetUserName(msg) + " said :" + GetMessage(msg));
+                    
+                }
             }
         }
 
@@ -107,6 +116,30 @@ namespace FinlevWhiffBot
         internal static void TestJoinMessage()
         {
             Say("Hi finley ;)");
+        }
+
+        private static string GetUserName(string raw)
+        {
+            int start = raw.IndexOf("@") + 1; //after this
+            int end = raw.IndexOf(".tmi.twitch.tv"); //before this
+            int len = end - start;
+            return raw.Substring(start, len);
+        }
+
+        private static string GetMessage(string raw)
+        {
+            string oneColon = raw.Substring(1);
+            return oneColon.Substring(oneColon.IndexOf(":") + 1);
+        }
+
+        internal static Tuple<string, string> GetUserAndMessage(string raw)
+        {
+            return new Tuple<string, string>(GetUserName(raw), GetMessage(raw));
+        }
+
+        internal static Tuple<string,string> GetUserAndMessagFromLast()
+        {
+            return lastUserMsg;
         }
     }
 }
